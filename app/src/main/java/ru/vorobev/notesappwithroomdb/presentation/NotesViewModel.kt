@@ -1,5 +1,6 @@
 package ru.vorobev.notesappwithroomdb.presentation
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -7,6 +8,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import ru.vorobev.notesappwithroomdb.data.Note
 import ru.vorobev.notesappwithroomdb.data.NoteDao
@@ -42,12 +44,20 @@ class NotesViewModel(
 
             is NotesEvent.SaveNote -> {
                 val note = Note(
-                    title = Note (
                         title = state.value.title.value,
                         description = state.value.description.value,
                         dateAdded = System.currentTimeMillis()
                     )
-                )
+                viewModelScope.launch {
+                    dao.upsertNote(note)
+                }
+
+                _state.update {
+                    it.copy(
+                        title = mutableStateOf(""),
+                        description = mutableStateOf("")
+                    )
+                }
             }
 
             NotesEvent.SortNotes -> {

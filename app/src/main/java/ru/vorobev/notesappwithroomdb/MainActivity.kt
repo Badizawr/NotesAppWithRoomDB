@@ -14,6 +14,7 @@ import androidx.room.Room
 import ru.vorobev.notesappwithroomdb.data.NotesDatabase
 import ru.vorobev.notesappwithroomdb.ui.theme.NotesAppWithRoomDBTheme
 
+
 private val database by lazy {
     Room.databaseBuilder(
         applicationContext,

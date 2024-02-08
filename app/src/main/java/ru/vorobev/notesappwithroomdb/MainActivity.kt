@@ -21,6 +21,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import ru.vorobev.notesappwithroomdb.data.NotesDatabase
+import ru.vorobev.notesappwithroomdb.presentation.AddNoteScreen
+import ru.vorobev.notesappwithroomdb.presentation.NotesScreen
 import ru.vorobev.notesappwithroomdb.presentation.NotesViewModel
 import ru.vorobev.notesappwithroomdb.ui.theme.NotesAppWithRoomDBTheme
 
@@ -35,10 +37,10 @@ class MainActivity : ComponentActivity() {
         ).build()
     }
 
-    private  val viewModel by viewModels<NotesViewModel> (
+    private val viewModel by viewModels<NotesViewModel>(
         factoryProducer = {
             object : ViewModelProvider.Factory {
-                override fun <T: ViewModel> create (modelClass: Class<T>) : T {
+                override fun <T : ViewModel> create(modelClass: Class<T>): T {
                     return NotesViewModel(database.dao) as T
                 }
             }
@@ -66,7 +68,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable("AddNoteScreen") {
-                            AddNoteScreen (
+                            AddNoteScreen(
                                 state = state,
                                 navController = navController,
                                 onEvent = viewModel::onEvent

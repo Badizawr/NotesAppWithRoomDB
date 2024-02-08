@@ -87,6 +87,7 @@ fun NotesScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             items(state.notes.size) { index ->
+                NoteItem(state = state, index = index, onEvent = onEvent)
             }
         }
     }
@@ -127,7 +128,12 @@ fun NoteItem(
                 onEvent(NotesEvent.DeleteNote(state.notes[index]))
             }
         ) {
-            Icon(imageVector = Icons.Rounded.Delete, contentDescription = "Delete note")
+            Icon(
+                imageVector = Icons.Rounded.Delete,
+                contentDescription = "Delete note",
+                modifier = Modifier.size(35.dp),
+                tint = MaterialTheme.colorScheme.onPrimaryContainer
+            )
         }
     }
 }
